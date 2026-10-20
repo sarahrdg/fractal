@@ -1,30 +1,34 @@
 # MPI
 
+
 ## Como compilar e executar em UM pc
 
-Instala a dependencia 
-
+### 1. Instala as dependencias 
+```bash
  sudo apt install libx11-dev
  sudo apt install zlib1g-dev
+```
 
-
-### 1. Limpar arquivos gerados anteriormente
+### 2. Limpar arquivos gerados anteriormente
 
 ```bash
 make clean
 ```
 
-### 2. Compilar o projeto
+### 3. Compilar o projeto
 
 ```bash
 make
 ```
 
-### 3. Executar 
+### 4. Executar 
 
 ```bash
 mpirun -np 4 ./mandelbrot
 ```
+
+
+
 
 ## Pra rodar nos 3 computadores
 

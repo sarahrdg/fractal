@@ -92,6 +92,12 @@ sudo systemctl status ssh
 active (running)
 ```
 
+Pra ativar o ssh:
+
+```bash
+sudo systemctl start ssh
+```
+
 - PC mestre:
 
 #### Criar a SSH

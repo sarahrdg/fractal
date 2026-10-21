@@ -44,7 +44,7 @@ class Mandel
       void calcAndShow(Td& d, const Tp& p, 
          const dcomplex& zmin, const dcomplex& zmax, int maxiter);
       
-         // Isso foi a IA que colocou
+      // Isso foi a IA que colocou
       template<typename Td, typename Tp>
       void calcAndShowMPI(Td& d, const Tp& p,
          const dcomplex& zmin, const dcomplex& zmax, int maxiter);
@@ -217,7 +217,7 @@ Mandel::calcSlave(const dcomplex& zmin,
    int yBegin = config[2];
    int yEnd = config[3];
    maxiter = config[4];
-   
+
    double dx = (zmax.real() - zmin.real()) / (double)nx;
    double dy = (zmax.imag() - zmin.imag()) / (double)ny;
 

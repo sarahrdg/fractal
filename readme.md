@@ -29,17 +29,17 @@ mpirun -np 4 ./mandelbrot
 ## Pra rodar nos 3 computadores
 
 ### 1. Precisa ter
+- - A pasta com o projeto precisa ter o nome exatamente igual a **mandelbrot-default** e precisa estar na pasta C, de forma que o caminho no terminal seja exatamente esse:
+```bash 
+/mnt/c/mandelbrot-default 
+```
+
 
 - MPI
 
 ```bash
 sudo apt update
 sudo apt install openmpi-bin libopenmpi-dev
-```
-
-- A pasta com o projeto precisa ter o nome exatamente igual a **mandelbrot-default** e precisa estar na pasta C, de forma que o caminho no terminal seja exatamente esse:
-```bash 
-/mnt/c/mandelbrot-default 
 ```
 
 - No pc da faculdade:
@@ -123,7 +123,6 @@ Pra sair:
 ```bash
 exit
 ```
-
 
 ### 3. Colocar os ips das maquinas no arquivo hosts no pc do mestre
 

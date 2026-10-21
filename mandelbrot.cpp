@@ -42,6 +42,7 @@ main(int argc, char *argv[])
    // Para ver um exemplo de figura com zoom, descomente as linhas abaixo.   
    zmin = dcomplex(-0.482536, -0.635201);
    zmax = dcomplex(-0.565928, -0.579588);
+   
    // Novo
    int rank, size;
    MPI_Init(&argc, &argv); // Inicia o MPI

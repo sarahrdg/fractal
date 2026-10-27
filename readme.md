@@ -27,32 +27,19 @@ make
 mpirun -np 4 ./mandelbrot
 ```
 
-
-
-
 ## Pra rodar nos 3 computadores
 
 ### 1. Precisa ter
-- - A pasta com o projeto precisa ter o nome exatamente igual a **mandelbrot-default** e precisa estar na pasta C, de forma que o caminho no terminal seja exatamente esse:
+- - A pasta com o projeto precisa ter o nome exatamente igual a **mandelbrot-default** e precisa estar na pasta C, o caminho deverá ser exatamente esse:
 ```bash 
 /mnt/c/mandelbrot-default 
 ```
-
 
 - MPI
 
 ```bash
 sudo apt update
 sudo apt install openmpi-bin libopenmpi-dev
-```
-
-- No pc da faculdade:
-```bash 
-sudo mkdir -p /mnt/c/mandelbrot-default
-
-cp -r /caminho/do/projeto/* /mnt/c/mandelbrot-default/
-
-cd /mnt/c/mandelbrot-default
 ```
 
 - Dependências instaladas
@@ -62,10 +49,9 @@ cd /mnt/c/mandelbrot-default
  sudo apt install zlib1g-dev
 ```
 
- - Projeto compilado
+- Projeto compilado
 
 ```bash
-git clone bla bla bla
 make clean
 make
 ```
@@ -141,7 +127,3 @@ exit
 git clone bla bla bla
 mpirun -np 4 --hostfile hosts ./mandelbrot
 ```
-
-
-- Caso o pc do lab nao inicie a ssh:
-sudo systemctl start ssh

@@ -10,7 +10,7 @@
 #define TAG_RESULT  201
 
 /**
- Fun��o gen�rica que calcula o quadrado de um n�mero complexo.
+ Função genérica que calcula o quadrado de um número complexo.
  */
 template <typename Tc> 
 Tc sqr(const Tc& a) 
@@ -44,7 +44,7 @@ class Mandel
       void calcAndShow(Td& d, const Tp& p, 
          const dcomplex& zmin, const dcomplex& zmax, int maxiter);
       
-      // Isso foi a IA que colocou
+      // Declara novas funções
       template<typename Td, typename Tp>
       void calcAndShowMPI(Td& d, const Tp& p,
          const dcomplex& zmin, const dcomplex& zmax, int maxiter);
@@ -129,20 +129,26 @@ Mandel::calcAndShowMPI(Td& d, const Tp& p,
    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
    MPI_Comm_size(MPI_COMM_WORLD, &size);
 
+   // Tamanho da imagem
    unsigned int nx = d.width();
    unsigned int ny = d.height();
 
+   // Quantidade de escravos
    int numEscravos = size - 1;
 
+   // Convertendo pixels para o plano complexo
    double dx = (zmax.real() - zmin.real()) / (double)nx;
    double dy = (zmax.imag() - zmin.imag()) / (double)ny;
 
+   // Divide a imagem em 3 partes, 1 para cada escravo
    int alturaPorEscravo = ny / numEscravos;
 
    int config[5];
 
+   // For que passa por cada escravo
    for (int escravo = 1; escravo <= numEscravos; escravo++)
    {
+      // Percorre os escravos 1, 2 e 3, calcula quais linhas cada escravo deve processar e envia para o escravo
       int yBegin = (escravo - 1) * alturaPorEscravo;
       int yEnd;
 
@@ -151,12 +157,13 @@ Mandel::calcAndShowMPI(Td& d, const Tp& p,
       else
          yEnd = yBegin + alturaPorEscravo;
 
-      config[0] = nx;
-      config[1] = ny;
-      config[2] = yBegin;
-      config[3] = yEnd;
-      config[4] = maxiter;
+      config[0] = nx; // Tamanho da imagem no eixo horizontal
+      config[1] = ny; // Tamanho da imagem no eixo vertical
+      config[2] = yBegin; // Primeira linha do escravo
+      config[3] = yEnd; // Última linha do escravo
+      config[4] = maxiter; // Máximo de iterações por ponto
 
+      // Envia essa mensagem pro escravo
       MPI_Send(config, 5, MPI_INT, escravo,
                TAG_CONFIG, MPI_COMM_WORLD);
    }
@@ -165,6 +172,7 @@ Mandel::calcAndShowMPI(Td& d, const Tp& p,
    {
       MPI_Status status;
 
+      // Recebe os valores dos escravos
       int tamanhoFaixa;
       MPI_Recv(&tamanhoFaixa, 1, MPI_INT, escravo,
                TAG_RESULT, MPI_COMM_WORLD, &status);
@@ -174,11 +182,13 @@ Mandel::calcAndShowMPI(Td& d, const Tp& p,
       MPI_Recv(iteracoes.data(), tamanhoFaixa, MPI_UNSIGNED, escravo,
                TAG_RESULT, MPI_COMM_WORLD, &status);
 
+      // Calcula de novo qual parte é de cada escravo
       int yBegin = (escravo - 1) * alturaPorEscravo;
       int yEnd = (escravo == numEscravos)
                     ? ny
                     : yBegin + alturaPorEscravo;
 
+      // Desenha a imagem
       int k = 0;
 
       for (int y = yBegin; y < yEnd; y++)
@@ -209,6 +219,7 @@ Mandel::calcSlave(const dcomplex& zmin,
 
    int config[5];
 
+   // Recebe o vetor do mestre e trata essas informações
    MPI_Recv(config, 5, MPI_INT, 0,
             TAG_CONFIG, MPI_COMM_WORLD, &status);
 
@@ -228,6 +239,7 @@ Mandel::calcSlave(const dcomplex& zmin,
 
    int k = 0;
 
+   // Faz o calculo da sua parte do fractal
    for (int y = yBegin; y < yEnd; y++)
    {
       for (unsigned int x = 0; x < nx; x++)
@@ -241,6 +253,7 @@ Mandel::calcSlave(const dcomplex& zmin,
       }
    }
 
+   // Envia de volta pro mestre os resultados que obteve
    MPI_Send(&tamanhoFaixa, 1, MPI_INT, 0,
             TAG_RESULT, MPI_COMM_WORLD);
 

@@ -49,7 +49,7 @@ main(int argc, char *argv[])
    MPI_Comm_rank(MPI_COMM_WORLD, &rank); // Vê se é mestre ou escravo
    MPI_Comm_size(MPI_COMM_WORLD, &size); // Vê quantos processos são criados
 
-   // Pra rodar 1 mestre e 3 escravos
+   // Pra rodar 1 mestre e 3 escravos e dar erro se tentar rodar em uma quantidade de processos diferentes
    if (size != 4)
    {
       if (rank == 0)
@@ -61,20 +61,25 @@ main(int argc, char *argv[])
       MPI_Finalize();
       return 1;
    }
+   // MESTRE
    if (rank == 0)
    {
-      // MESTRE
+      // Abre a janela gráfica 
       X11Display d;
       d.open(largura, altura, "Mandelbrot MPI");
 
+      // Chama o Mandel
       Mandel m;
 
+      // Cria a paleta de cores, e atualiza a janela
       RGBPalette p(0.4, 0.95, 0.65, 0.45, 0.5, 0.5, 0.5);
 
+      // Chama a função que organiza a divisão de tarefas
       m.calcAndShowMPI(d, p, zmin, zmax, maxiter);
 
       d.flush();
 
+      // Define que o usuário precisa digitar 'fim' para finalizar o programa
       cout << "Digite fim para encerrar o programa" << endl;
 
       while (cin >> command)
@@ -85,9 +90,9 @@ main(int argc, char *argv[])
 
       d.close();
    }
+   // ESCRAVO
    else
    {
-      // ESCRAVO
       Mandel m;
 
       m.calcSlave(zmin, zmax, maxiter);

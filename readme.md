@@ -1,27 +1,41 @@
 # MPI
 
+## Pré-requisitos
 
-## Como compilar e executar em UM pc
+### Instalar openmpi 
 
-### 1. Instala as dependencias 
+```bash
+sudo apt update
+sudo apt install openmpi-bin libopenmpi-dev
+```
+
+### Intslar ferramentas básicas
+
+```bash
+sudo apt install build-essential
+```
+
+### Instalar dependências
 ```bash
  sudo apt install libx11-dev
  sudo apt install zlib1g-dev
 ```
 
-### 2. Limpar arquivos gerados anteriormente
+## Como compilar e executar em UM pc
+
+### 1. Limpar arquivos gerados anteriormente
 
 ```bash
 make clean
 ```
 
-### 3. Compilar o projeto
+### 2. Compilar o projeto
 
 ```bash
 make
 ```
 
-### 4. Executar 
+### 3. Executar 
 
 ```bash
 mpirun -np 4 ./mandelbrot
@@ -30,23 +44,9 @@ mpirun -np 4 ./mandelbrot
 ## Pra rodar nos 3 computadores
 
 ### 1. Precisa ter
-- - A pasta com o projeto precisa ter o nome exatamente igual a **mandelbrot-default** e precisa estar na pasta C, o caminho deverá ser exatamente esse:
+- A pasta com o projeto precisa ter o nome exatamente igual a **mandelbrot-default** e precisa estar na pasta C, o caminho deverá ser exatamente esse:
 ```bash 
 /mnt/c/mandelbrot-default 
-```
-
-- MPI
-
-```bash
-sudo apt update
-sudo apt install openmpi-bin libopenmpi-dev
-```
-
-- Dependências instaladas
-
-```bash
- sudo apt install libx11-dev
- sudo apt install zlib1g-dev
 ```
 
 - Projeto compilado
@@ -54,6 +54,23 @@ sudo apt install openmpi-bin libopenmpi-dev
 ```bash
 make clean
 make
+```
+
+- Firewall desativado
+
+No terminal de administrador, rode:
+```bash 
+Get-NetFirewallProfile | Format-Table Name, Enabled
+```
+
+Se todos forem false ok, se tiver pelo menos um true:
+```bash 
+ netsh advfirewall set allprofiles state off
+```
+
+Para reativar após a prática:
+```bash 
+ netsh advfirewall set allprofiles state on
 ```
 
 ### 2. Configurar SSH
@@ -78,7 +95,7 @@ sudo systemctl status ssh
 active (running)
 ```
 
-Pra ativar o ssh:
+Pra ativar a ssh:
 
 ```bash
 sudo systemctl start ssh
@@ -86,7 +103,7 @@ sudo systemctl start ssh
 
 - PC mestre:
 
-#### Criar a SSH
+#### Criar a chave SSH
 
 ```bash
 ssh-keygen -t rsa
